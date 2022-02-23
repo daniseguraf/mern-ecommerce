@@ -1,0 +1,5 @@
+.ant-menu-overflow-item.ant-menu-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
