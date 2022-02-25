@@ -1,10 +1,26 @@
 import React, { useState } from 'react';
+import { auth } from './../../firebase';
+import { toast } from 'react-toastify'
 
 const Register = () => {
-  const [value, setValue] = useState('');
+  const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('ENV:', process.env.REACT_APP_REGISTER_URL_REDIRECT);
+
+    const config = {
+      url: process.env.REACT_APP_REGISTER_URL_REDIRECT,
+      handleCodeInApp: true
+    }
+
+    await auth.sendSignInLinkToEmail(email, config)
+    toast.success(`Email is send to ${email}. Click the link to complete the registration`)
+
+    //save user email in the localstarorage
+    window.localStorage.setItem('emailForRegistration', email)
+
+    setEmail('')
   };
 
   const registerForm = () => (
@@ -12,8 +28,8 @@ const Register = () => {
       <input
         type="email"
         className="form-control"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         autoFocus
       />
 
@@ -28,7 +44,7 @@ const Register = () => {
         <div className="col-md-6 offset-md-3">
           <h4>Register</h4>
           {registerForm()}
-          {value}
+          {email}
         </div>
       </div>
     </div>
