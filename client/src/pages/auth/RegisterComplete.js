@@ -8,15 +8,44 @@ const RegisterComplete = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      toast.error('Email and password id required');
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error('Password must be at least 6 characters long');
+      return;
+    }
+
     try {
       const result = await auth.signInWithEmailLink(
         email,
         window.location.href
       );
 
-      console.log(result);
+      if (result.user.emailVerified) {
+        // remove user email from local storage
+        window.localStorage.removeItem('emailForRegistration');
+
+        // get user id token
+        let user = auth.currentUser;
+        await user.updatePassword(password);
+        const idTokenResult = await user.getIdTokenResult();
+
+        // redux store
+        console.log('user', user);
+        console.log('idTokenResult', idTokenResult);
+
+        // redirect
+        // history.push('/');
+      }
+
+      // console.log(result);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
