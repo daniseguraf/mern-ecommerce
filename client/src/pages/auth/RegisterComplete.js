@@ -10,7 +10,7 @@ const RegisterComplete = ({ history }) => {
     e.preventDefault();
 
     if (!email || !password) {
-      toast.error('Email and password id required');
+      toast.error('Email and password are required');
       return;
     }
 
@@ -34,17 +34,9 @@ const RegisterComplete = ({ history }) => {
         await user.updatePassword(password);
         const idTokenResult = await user.getIdTokenResult();
 
-        // redux store
-        console.log('user', user);
-        console.log('idTokenResult', idTokenResult);
-
-        // redirect
-        // history.push('/');
+        history.push('/');
       }
-
-      // console.log(result);
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -56,15 +48,22 @@ const RegisterComplete = ({ history }) => {
 
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
-      <input type="email" className="form-control" value={email} disabled />
-      <input
-        type="password"
-        className="form-control"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter your password"
-        autoFocus
-      />
+      <div className="form-group">
+        <input type="email" className="form-control" value={email} disabled />
+      </div>
+
+      <br />
+      <div className="form-group">
+        <input
+          type="password"
+          className="form-control"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter your password"
+          autoFocus
+        />
+      </div>
+
       <br />
       <button type="submit" className="btn btn-raised">
         Complete Registration
@@ -76,7 +75,7 @@ const RegisterComplete = ({ history }) => {
     <div className="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <h4>Register Complete</h4>
+          <h4>Complete your registration</h4>
           {completeRegistrationForm()}
           {email}
         </div>

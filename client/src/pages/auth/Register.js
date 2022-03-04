@@ -12,8 +12,6 @@ const Register = () => {
       return;
     }
 
-    // console.log('ENV:', process.env.REACT_APP_REGISTER_URL_REDIRECT);
-
     const config = {
       url: process.env.REACT_APP_REGISTER_URL_REDIRECT,
       handleCodeInApp: true,
@@ -26,7 +24,6 @@ const Register = () => {
 
     //save user email in the localstorage
     window.localStorage.setItem('emailForRegistration', email);
-
     setEmail('');
   };
 
@@ -37,9 +34,11 @@ const Register = () => {
         className="form-control"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter your email"
         autoFocus
       />
 
+      <br />
       <button type="submit" className="btn btn-raised">
         Register
       </button>
